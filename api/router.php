@@ -5,8 +5,17 @@
  *
  * To add a new API route, add a new case below and create api/{module}/index.php
  */
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
-$uri   = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+// حل مشكلة الـ preflight
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit();
+}
+
+$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $parts = explode('/', trim($uri, '/'));
 // parts[0] = 'api', parts[1] = module name
 
@@ -21,11 +30,12 @@ $apiModules = [
 
 if (isset($apiModules[$module])) {
     require $apiModules[$module];
-} else {
+}
+else {
     header('Content-Type: application/json; charset=utf-8');
     http_response_code(404);
     echo json_encode([
-        'status'  => 'error',
+        'status' => 'error',
         'message' => 'API endpoint not found',
         'available' => array_map(fn($k) => "/api/$k", array_keys($apiModules)),
     ], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
