@@ -8,40 +8,44 @@ $v = function(string $key, string $default = '') use ($p): string {
 $stackArr  = json_decode($p['stack']        ?? '[]', true) ?: [];
 $colorsArr = json_decode($p['stack_colors'] ?? '[]', true) ?: [];
 $imagesArr = json_decode($p['images']       ?? '[]', true) ?: [];
+
+// Define classes here to keep HTML clean
+$frmL = "block text-sm text-slate-300 font-medium mb-1.5";
+$frmI = "w-full bg-slate-800 border border-white/10 rounded-xl px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500/50 focus:border-sky-500/50 transition-all text-sm";
 ?>
 
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
     <!-- Title -->
     <div class="sm:col-span-2">
-        <label class="form-label">عنوان المشروع <span class="text-red-400">*</span></label>
-        <input type="text" name="title" required value="<?= $v('title') ?>" class="form-input" placeholder="e.g. منصة تعليمية MERN">
+        <label class="<?= $frmL ?>">عنوان المشروع <span class="text-red-400">*</span></label>
+        <input type="text" name="title" required value="<?= $v('title') ?>" class="<?= $frmI ?>" placeholder="e.g. منصة تعليمية MERN">
     </div>
 
     <!-- Type -->
     <div>
-        <label class="form-label">نوع المشروع</label>
-        <input type="text" name="type" value="<?= $v('type') ?>" class="form-input" placeholder="e.g. MERN Stack">
+        <label class="<?= $frmL ?>">نوع المشروع</label>
+        <input type="text" name="type" value="<?= $v('type') ?>" class="<?= $frmI ?>" placeholder="e.g. MERN Stack">
     </div>
 
     <!-- Sort Order -->
     <div>
-        <label class="form-label">الترتيب</label>
-        <input type="number" name="sort_order" value="<?= $v('sort_order', '0') ?>" class="form-input" min="0">
+        <label class="<?= $frmL ?>">الترتيب</label>
+        <input type="number" name="sort_order" value="<?= $v('sort_order', '0') ?>" class="<?= $frmI ?>" min="0">
     </div>
 
     <!-- Type BG -->
     <div>
-        <label class="form-label">لون الخلفية (type_bg)</label>
+        <label class="<?= $frmL ?>">لون الخلفية (type_bg)</label>
         <input type="text" name="type_bg" value="<?= $v('type_bg', 'rgba(255,255,255,0.1)') ?>"
-               class="form-input" placeholder="rgba(245,230,66,0.1)">
+               class="<?= $frmI ?>" placeholder="rgba(245,230,66,0.1)">
     </div>
 
     <!-- Type Color -->
     <div>
-        <label class="form-label">لون النص (type_color)</label>
+        <label class="<?= $frmL ?>">لون النص (type_color)</label>
         <div class="flex gap-2">
             <input type="text" name="type_color" id="typeColorText" value="<?= $v('type_color', '#ffffff') ?>"
-                   class="form-input flex-1" placeholder="#F5E642">
+                   class="<?= $frmI ?> flex-1" placeholder="#F5E642">
             <input type="color" id="typeColorPicker" value="<?= $v('type_color', '#ffffff') ?>"
                    class="w-12 h-10 rounded-lg border border-white/10 bg-slate-800 cursor-pointer p-1">
         </div>
@@ -49,30 +53,37 @@ $imagesArr = json_decode($p['images']       ?? '[]', true) ?: [];
 
     <!-- Short Desc -->
     <div class="sm:col-span-2">
-        <label class="form-label">وصف مختصر</label>
+        <label class="<?= $frmL ?>">وصف مختصر</label>
         <input type="text" name="short_desc" value="<?= $v('short_desc') ?>"
-               class="form-input" placeholder="وصف قصير يظهر في البطاقة">
+               class="<?= $frmI ?>" placeholder="وصف قصير يظهر في البطاقة">
     </div>
 
     <!-- Full Desc -->
     <div class="sm:col-span-2">
-        <label class="form-label">وصف تفصيلي</label>
-        <textarea name="full_desc" rows="4" class="form-input resize-none"
+        <label class="<?= $frmL ?>">وصف تفصيلي</label>
+        <textarea name="full_desc" rows="4" class="<?= $frmI ?> resize-none"
                   placeholder="وصف مفصّل يظهر في صفحة تفاصيل المشروع"><?= $v('full_desc') ?></textarea>
     </div>
 
     <!-- Live URL -->
-    <div>
-        <label class="form-label">رابط الموقع (live URL)</label>
+    <div class="sm:col-span-2">
+        <label class="<?= $frmL ?>">رابط الموقع (live URL) <span class="text-slate-500 font-normal ml-1">(اختياري)</span></label>
         <input type="text" name="live_url" value="<?= $v('live_url', '#') ?>"
-               class="form-input" placeholder="https://...">
+               class="<?= $frmI ?>" placeholder="https://...">
     </div>
 
     <!-- GitHub URL -->
     <div>
-        <label class="form-label">رابط GitHub</label>
+        <label class="<?= $frmL ?>">رابط GitHub <span class="text-slate-500 font-normal ml-1">(اختياري)</span></label>
         <input type="text" name="github_url" value="<?= $v('github_url', '#') ?>"
-               class="form-input" placeholder="https://github.com/...">
+               class="<?= $frmI ?>" placeholder="https://github.com/...">
+    </div>
+
+    <!-- Figma URL -->
+    <div>
+        <label class="<?= $frmL ?>">رابط Figma <span class="text-slate-500 font-normal ml-1">(اختياري)</span></label>
+        <input type="text" name="figma_url" value="<?= $v('figma_url', '#') ?>"
+               class="<?= $frmI ?>" placeholder="https://www.figma.com/...">
     </div>
 </div>
 
@@ -92,16 +103,16 @@ $imagesArr = json_decode($p['images']       ?? '[]', true) ?: [];
             $tag   = htmlspecialchars($stackArr[$i] ?? '', ENT_QUOTES);
             $color = htmlspecialchars($colorsArr[$i] ?? 'tag-teal', ENT_QUOTES);
         ?>
-        <div class="flex gap-2 stack-row">
+        <div class="flex flex-col sm:flex-row gap-2 stack-row">
             <input type="text" name="stack[]" value="<?= $tag ?>" placeholder="MongoDB"
-                   class="form-input flex-1 text-sm">
-            <select name="stack_colors[]" class="form-input w-36 text-sm">
+                   class="<?= $frmI ?> flex-1 text-sm min-w-0">
+            <select name="stack_colors[]" class="<?= $frmI ?> sm:w-40 text-sm appearance-none pr-8">
                 <?php foreach (['tag-teal','tag-orange','tag-yellow','tag-pink','tag-purple','tag-blue'] as $c): ?>
                     <option value="<?= $c ?>" <?= $color === $c ? 'selected' : '' ?>><?= $c ?></option>
                 <?php endforeach; ?>
             </select>
             <button type="button" onclick="this.closest('.stack-row').remove()"
-                    class="px-2.5 py-1.5 bg-red-500/10 text-red-400 hover:bg-red-500/20 rounded-lg transition-all text-xs">✕</button>
+                    class="px-3 py-2 bg-red-500/10 text-red-400 hover:bg-red-500/20 rounded-xl transition-all text-xs shrink-0 self-start sm:self-auto h-full">✕</button>
         </div>
         <?php endfor; ?>
     </div>
@@ -124,7 +135,7 @@ $imagesArr = json_decode($p['images']       ?? '[]', true) ?: [];
         ?>
         <div class="flex gap-2 image-row">
             <input type="text" name="images[]" value="<?= $imgVal ?>" placeholder="https://images.unsplash.com/..."
-                   class="form-input flex-1 text-sm">
+                   class="<?= $frmI ?> flex-1 text-sm">
             <button type="button" onclick="this.closest('.image-row').remove()"
                     class="px-2.5 py-1.5 bg-red-500/10 text-red-400 hover:bg-red-500/20 rounded-lg transition-all text-xs">✕</button>
         </div>
@@ -132,20 +143,13 @@ $imagesArr = json_decode($p['images']       ?? '[]', true) ?: [];
     </div>
 </div>
 
-<style>
-    .form-label { @apply block text-sm text-slate-300 font-medium mb-1.5; }
-    .form-input  { @apply w-full bg-slate-800 border border-white/10 rounded-xl px-4 py-2.5 text-white placeholder-slate-500
-                         focus:outline-none focus:ring-2 focus:ring-sky-500/50 focus:border-sky-500/50 transition-all text-sm; }
-    /* Override defaults for select to look better on dark mode */
-    select.form-input { @apply appearance-none bg-slate-800 text-white pr-8; }
-</style>
 <script>
 function addStackRow() {
     const c = document.getElementById('stack-container');
     c.insertAdjacentHTML('beforeend', `
-        <div class="flex gap-2 stack-row">
-            <input type="text" name="stack[]" placeholder="Technology" class="form-input flex-1 text-sm">
-            <select name="stack_colors[]" class="form-input w-36 text-sm">
+        <div class="flex flex-col sm:flex-row gap-2 stack-row">
+            <input type="text" name="stack[]" placeholder="Technology" class="<?= $frmI ?> flex-1 text-sm min-w-0">
+            <select name="stack_colors[]" class="<?= $frmI ?> sm:w-40 text-sm appearance-none pr-8">
                 <option value="tag-teal">tag-teal</option>
                 <option value="tag-orange">tag-orange</option>
                 <option value="tag-yellow">tag-yellow</option>
@@ -154,14 +158,14 @@ function addStackRow() {
                 <option value="tag-blue">tag-blue</option>
             </select>
             <button type="button" onclick="this.closest('.stack-row').remove()"
-                    class="px-2.5 py-1.5 bg-red-500/10 text-red-400 hover:bg-red-500/20 rounded-lg transition-all text-xs">✕</button>
+                    class="px-3 py-2 bg-red-500/10 text-red-400 hover:bg-red-500/20 rounded-xl transition-all text-xs shrink-0 self-start sm:self-auto h-full">✕</button>
         </div>`);
 }
 function addImageRow() {
     const c = document.getElementById('images-container');
     c.insertAdjacentHTML('beforeend', `
         <div class="flex gap-2 image-row">
-            <input type="text" name="images[]" placeholder="https://..." class="form-input flex-1 text-sm">
+            <input type="text" name="images[]" placeholder="https://..." class="<?= $frmI ?> flex-1 text-sm">
             <button type="button" onclick="this.closest('.image-row').remove()"
                     class="px-2.5 py-1.5 bg-red-500/10 text-red-400 hover:bg-red-500/20 rounded-lg transition-all text-xs">✕</button>
         </div>`);

@@ -31,6 +31,7 @@ $data = [
     'full_desc'    => trim($_POST['full_desc'] ?? ''),
     'live_url'     => trim($_POST['live_url'] ?? '#'),
     'github_url'   => trim($_POST['github_url'] ?? '#'),
+    'figma_url'    => trim($_POST['figma_url'] ?? '#'),
     'sort_order'   => (int)($_POST['sort_order'] ?? 0),
     'stack'        => json_encode(cleanArray($_POST['stack'] ?? [])),
     'stack_colors' => json_encode(cleanArray($_POST['stack_colors'] ?? [])),
@@ -48,7 +49,7 @@ $stmt = $db->prepare("
     UPDATE projects SET
         title=:title, type=:type, type_bg=:type_bg, type_color=:type_color,
         short_desc=:short_desc, full_desc=:full_desc,
-        live_url=:live_url, github_url=:github_url,
+        live_url=:live_url, github_url=:github_url, figma_url=:figma_url,
         sort_order=:sort_order, stack=:stack,
         stack_colors=:stack_colors, images=:images
     WHERE id=:id

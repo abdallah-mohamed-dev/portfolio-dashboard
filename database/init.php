@@ -15,6 +15,7 @@ function initDatabase(PDO $pdo): void {
             images      TEXT    NOT NULL DEFAULT '[]',
             live_url    TEXT    NOT NULL DEFAULT '#',
             github_url  TEXT    NOT NULL DEFAULT '#',
+            figma_url   TEXT    NOT NULL DEFAULT '#',
             sort_order  INTEGER NOT NULL DEFAULT 0,
             created_at  TEXT    NOT NULL DEFAULT (datetime('now'))
         )

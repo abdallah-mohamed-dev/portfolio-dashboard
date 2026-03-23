@@ -54,6 +54,7 @@ function formatProject(array $row): array {
         'images'     => json_decode($row['images'], true) ?: [],
         'liveUrl'    => $row['live_url'],
         'githubUrl'  => $row['github_url'],
+        'figmaUrl'   => $row['figma_url'] ?? '#',
         'sortOrder'  => (int)$row['sort_order'],
     ];
 }

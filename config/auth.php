@@ -7,40 +7,46 @@ define('ADMIN_PASSWORD_HASH', password_hash('admin123', PASSWORD_BCRYPT));
 
 // ─── Session Helpers ──────────────────────────────────────────────────────────
 
-function startSession(): void {
+function startSession(): void
+{
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
 }
 
-function isLoggedIn(): bool {
+function isLoggedIn(): bool
+{
     startSession();
     return isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true;
 }
 
-function requireLogin(): void {
+function requireLogin(): void
+{
     if (!isLoggedIn()) {
         header('Location: /login');
         exit;
     }
 }
 
-function attemptLogin(string $username, string $password): bool {
+function attemptLogin(string $username, string $password): bool
+{
     if ($username === ADMIN_USERNAME && password_verify($password, ADMIN_PASSWORD_HASH)) {
         startSession();
         $_SESSION['admin_logged_in'] = true;
-        $_SESSION['admin_user']      = $username;
+        $_SESSION['admin_user'] = $username;
         return true;
     }
     return false;
 }
 
-function logout(): void {
+function logout(): void
+{
     startSession();
     session_destroy();
 }
 
-function csrfToken(): string {
+function csrfToken(): string
+{
     startSession();
     if (empty($_SESSION['csrf_token'])) {
         $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
@@ -48,7 +54,8 @@ function csrfToken(): string {
     return $_SESSION['csrf_token'];
 }
 
-function verifyCsrf(): void {
+function verifyCsrf(): void
+{
     $token = $_POST['csrf_token'] ?? '';
     if (!hash_equals(csrfToken(), $token)) {
         http_response_code(403);

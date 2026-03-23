@@ -24,6 +24,7 @@ $data = [
     'full_desc'    => trim($_POST['full_desc'] ?? ''),
     'live_url'     => trim($_POST['live_url'] ?? '#'),
     'github_url'   => trim($_POST['github_url'] ?? '#'),
+    'figma_url'    => trim($_POST['figma_url'] ?? '#'),
     'sort_order'   => (int)($_POST['sort_order'] ?? 0),
     'stack'        => json_encode(cleanArray($_POST['stack'] ?? [])),
     'stack_colors' => json_encode(cleanArray($_POST['stack_colors'] ?? [])),
@@ -38,8 +39,8 @@ if (empty($data['title'])) {
 }
 
 $stmt = $db->prepare("
-    INSERT INTO projects (title, type, type_bg, type_color, short_desc, full_desc, stack, stack_colors, images, live_url, github_url, sort_order)
-    VALUES (:title, :type, :type_bg, :type_color, :short_desc, :full_desc, :stack, :stack_colors, :images, :live_url, :github_url, :sort_order)
+    INSERT INTO projects (title, type, type_bg, type_color, short_desc, full_desc, stack, stack_colors, images, live_url, github_url, figma_url, sort_order)
+    VALUES (:title, :type, :type_bg, :type_color, :short_desc, :full_desc, :stack, :stack_colors, :images, :live_url, :github_url, :figma_url, :sort_order)
 ");
 $stmt->execute($data);
 
